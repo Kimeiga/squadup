@@ -27,6 +27,6 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    - run: npm run firebase:deploy:ci
+    - run: firebase deploy --non-interactive --token ${{ secrets.FIREBASE_TOKEN }}
       env:
         CI: true
