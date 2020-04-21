@@ -1,16 +1,16 @@
-const path = require('path')
+const path = require("path");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer') // eslint-disable-line
-  .BundleAnalyzerPlugin
+  .BundleAnalyzerPlugin;
 const PrerenderSPAPlugin = require('prerender-spa-plugin') // eslint-disable-line
 
-const prerenderedRoutesList = ['/login', '/home', '/']
+const prerenderedRoutesList = ["/login", "/home", "/"];
 
 module.exports = {
   configureWebpack: {
     plugins: [
       /* Refer to https://www.npmjs.com/package/webpack-bundle-analyzer for more details */
       new BundleAnalyzerPlugin({
-        analyzerMode: 'disabled',
+        analyzerMode: "disabled",
         generateStatsFile: true
       }),
       /* See https://github.com/chrisvfritz/prerender-spa-plugin for more details */
@@ -22,4 +22,4 @@ module.exports = {
       })
     ]
   }
-}
+};

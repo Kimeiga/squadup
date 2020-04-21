@@ -5,30 +5,30 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { isNil } from 'lodash'
+import { mapState } from "vuex";
+import { isNil } from "lodash";
 
 export default {
-  computed: mapState('authentication', ['user']),
+  computed: mapState("authentication", ["user"]),
   watch: {
     user: {
       handler(user) {
-        if (user === undefined) return
+        if (user === undefined) return;
 
         if (this.$route.query.redirectUrl === this.$route.path) {
-          this.$router.push('/')
+          this.$router.push("/");
         }
 
         const redirectUrl = isNil(user)
           ? `/login?redirectUrl=${this.$route.query.redirectUrl}`
-          : this.$route.query.redirectUrl
+          : this.$route.query.redirectUrl;
 
-        this.$router.push(redirectUrl)
+        this.$router.push(redirectUrl);
       },
       immediate: true
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

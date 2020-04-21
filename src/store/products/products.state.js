@@ -1,6 +1,6 @@
 export default {
   products: null,
-  productNameToCreate: '',
+  productNameToCreate: "",
   productDeletionPending: [],
   productCreationPending: false
-}
+};

@@ -9,11 +9,11 @@ export default {
   props: {
     product: Object
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/theme/variables.scss';
+@import "@/theme/variables.scss";
 
 .product-detail {
   display: flex;

@@ -1,4 +1,4 @@
-import { find } from 'lodash'
+import { find } from "lodash";
 
 export default {
   /**
@@ -12,4 +12,4 @@ export default {
    */
   getProductById: state => productId =>
     find(state.products, product => product.id === productId)
-}
+};

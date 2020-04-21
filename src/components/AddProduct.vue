@@ -19,22 +19,22 @@
 </template>
 
 <script>
-import { mapMutations, mapState, mapActions } from 'vuex'
+import { mapMutations, mapState, mapActions } from "vuex";
 
 export default {
-  computed: mapState('products', [
-    'productNameToCreate',
-    'productCreationPending'
+  computed: mapState("products", [
+    "productNameToCreate",
+    "productCreationPending"
   ]),
   methods: {
-    ...mapMutations('products', ['setProductNameToCreate']),
-    ...mapActions('products', ['triggerAddProductAction'])
+    ...mapMutations("products", ["setProductNameToCreate"]),
+    ...mapActions("products", ["triggerAddProductAction"])
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/theme/variables.scss';
+@import "@/theme/variables.scss";
 
 .product-action-bar {
   display: flex;

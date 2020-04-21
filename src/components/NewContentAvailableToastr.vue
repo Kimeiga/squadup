@@ -15,7 +15,7 @@ export default {
   props: {
     refreshingApp: Boolean
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

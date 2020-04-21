@@ -14,29 +14,29 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 
 export default {
   head() {
     return {
       title: {
-        inner: 'Home'
+        inner: "Home"
       },
       meta: [
         {
-          name: 'description',
+          name: "description",
           content: `${this.appTitle} home page`,
-          id: 'desc'
+          id: "desc"
         }
       ]
-    }
+    };
   },
-  computed: mapState('app', ['appTitle'])
-}
+  computed: mapState("app", ["appTitle"])
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/theme/variables.scss';
+@import "@/theme/variables.scss";
 
 .page-wrapper {
   display: flex;

@@ -24,50 +24,51 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-import { isNil } from 'lodash'
-import firebase from 'firebase/app'
-import { desktop as isDekstop } from 'is_js'
+import { mapState, mapMutations } from "vuex";
+import { isNil } from "lodash";
+import firebase from "firebase/app";
+import { desktop as isDekstop } from "is_js";
 
 export default {
   data: () => ({ loginError: null }),
   head() {
     return {
       title: {
-        inner: 'Login'
+        inner: "Login"
       },
       meta: [
         {
-          name: 'description',
+          name: "description",
           content: `Sign in or sign up to ${this.appTitle}`,
-          id: 'desc'
+          id: "desc"
         }
       ]
-    }
+    };
   },
   computed: {
-    ...mapState('authentication', ['user']),
-    ...mapState('app', ['networkOnLine', 'appTitle'])
+    ...mapState("authentication", ["user"]),
+    ...mapState("app", ["networkOnLine", "appTitle"])
   },
   watch: {
     user: {
       handler(user) {
         if (!isNil(user)) {
           const redirectUrl = isNil(this.$route.query.redirectUrl)
-            ? '/products'
-            : this.$route.query.redirectUrl
-          this.$router.push(redirectUrl)
+            ? "/products"
+            : this.$route.query.redirectUrl;
+          this.$router.push(redirectUrl);
         }
       },
       immediate: true
     }
   },
   methods: {
-    ...mapMutations('authentication', ['setUser']),
+    ...mapMutations("authentication", ["setUser"]),
     async login() {
-      this.loginError = null
-      const provider = new firebase.auth.GoogleAuthProvider()
-      this.setUser(undefined)
+      this.loginError = null;
+      const providerGoogle = new firebase.auth.GoogleAuthProvider();
+      const providerFacebook = new firebase.auth.FacebookAuthProvider();
+      this.setUser(undefined);
 
       try {
         // Firebase signin with popup is faster than redirect
@@ -75,19 +76,19 @@ export default {
         // when app is running as standalone on ios & android
         // eslint-disable-next-line no-unused-expressions
         isDekstop()
-          ? await firebase.auth().signInWithPopup(provider)
-          : await firebase.auth().signInWithRedirect(provider)
+          ? await firebase.auth().signInWithPopup(providerGoogle)
+          : await firebase.auth().signInWithRedirect(providerGoogle);
       } catch (err) {
-        this.loginError = err
-        this.setUser(null)
+        this.loginError = err;
+        this.setUser(null);
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/theme/variables.scss';
+@import "@/theme/variables.scss";
 
 .page-wrapper {
   display: flex;

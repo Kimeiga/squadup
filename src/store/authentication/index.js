@@ -1,7 +1,7 @@
-import state from './authentication.state'
-import mutations from './authentication.mutations'
-import actions from './authentication.actions'
-import getters from './authentication.getters'
+import state from "./authentication.state";
+import mutations from "./authentication.mutations";
+import actions from "./authentication.actions";
+import getters from "./authentication.getters";
 
 export default {
   namespaced: true,
@@ -9,4 +9,4 @@ export default {
   mutations,
   actions,
   getters
-}
+};

@@ -1,23 +1,23 @@
-import store from '@/store'
-import { isNil } from 'lodash'
+import store from "@/store";
+import { isNil } from "lodash";
 
 const isIosOnBrowser =
-  ['iPhone', 'iPad', 'iPod'].includes(navigator.platform) &&
-  !window.navigator.standalone
+  ["iPhone", "iPad", "iPod"].includes(navigator.platform) &&
+  !window.navigator.standalone;
 
 if (isIosOnBrowser) {
-  const now = Date.now()
-  let limitDate = null
+  const now = Date.now();
+  let limitDate = null;
   const addToHomeIosPromptLastDate = localStorage.getItem(
-    'addToHomeIosPromptLastDate'
-  )
+    "addToHomeIosPromptLastDate"
+  );
 
   if (!isNil(addToHomeIosPromptLastDate)) {
-    limitDate = new Date(parseInt(addToHomeIosPromptLastDate, 10))
-    limitDate.setMonth(limitDate.getMonth() + 1)
+    limitDate = new Date(parseInt(addToHomeIosPromptLastDate, 10));
+    limitDate.setMonth(limitDate.getMonth() + 1);
   }
 
   if (isNil(limitDate) || now >= limitDate.getTime()) {
-    store.commit('app/setShowAddToHomeScreenModalForApple', true)
+    store.commit("app/setShowAddToHomeScreenModalForApple", true);
   }
 }
