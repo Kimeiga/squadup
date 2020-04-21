@@ -11,6 +11,7 @@
     "prettier:format-all": "prettier --write \"**/*.{vue,scss,sass,js,json}\"",
     "prettier:check": "prettier \"**/*.{vue,scss,sass,js,json}\" --list-different",
     "firebase:deploy:ci": "firebase deploy --non-interactive --token $FIREBASE_TOKEN",
+    "deploy": "firebase deploy",
     "bundlesize": "bundlesize"
   },
   "engines": {
