@@ -16,9 +16,18 @@
       v-show="user !== undefined && !user && networkOnLine"
       data-test="login-btn"
       class="login-btn"
-      @click="login"
+      @click="loginGoogle"
     >
-      Login with google
+      Login with Google
+    </div>
+
+    <div
+      v-show="user !== undefined && !user && networkOnLine"
+      data-test="login-btn"
+      class="login-btn"
+      @click="loginFacebook"
+    >
+      Login with Facebook
     </div>
   </div>
 </template>
@@ -27,7 +36,7 @@
 import { mapState, mapMutations } from "vuex";
 import { isNil } from "lodash";
 import firebase from "firebase/app";
-import { desktop as isDekstop } from "is_js";
+import { desktop as isDesktop } from "is_js";
 
 export default {
   data: () => ({ loginError: null }),
@@ -64,10 +73,10 @@ export default {
   },
   methods: {
     ...mapMutations("authentication", ["setUser"]),
-    async login() {
+    async loginGoogle() {
       this.loginError = null;
       const providerGoogle = new firebase.auth.GoogleAuthProvider();
-      const providerFacebook = new firebase.auth.FacebookAuthProvider();
+
       this.setUser(undefined);
 
       try {
@@ -75,9 +84,30 @@ export default {
         // but we can't use it on mobile because it's not well supported
         // when app is running as standalone on ios & android
         // eslint-disable-next-line no-unused-expressions
-        isDekstop()
+        isDesktop()
           ? await firebase.auth().signInWithPopup(providerGoogle)
           : await firebase.auth().signInWithRedirect(providerGoogle);
+      } catch (err) {
+        this.loginError = err;
+        this.setUser(null);
+      }
+    },
+    async loginFacebook() {
+      this.loginError = null;
+
+      const providerFacebook = new firebase.auth.FacebookAuthProvider();
+      providerFacebook.addScope("user_friends");
+
+      this.setUser(undefined);
+
+      try {
+        // Firebase signin with popup is faster than redirect
+        // but we can't use it on mobile because it's not well supported
+        // when app is running as standalone on ios & android
+        // eslint-disable-next-line no-unused-expressions
+        isDesktop()
+          ? await firebase.auth().signInWithPopup(providerFacebook)
+          : await firebase.auth().signInWithRedirect(providerFacebook);
       } catch (err) {
         this.loginError = err;
         this.setUser(null);
