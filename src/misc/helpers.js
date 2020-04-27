@@ -23,8 +23,7 @@ export const createNewUserFromFirebaseAuthUser = async firebaseAuthUser => {
 export const getUserIDFromUsername = async name => {
   const userDb = new UsersDB();
   return (await userDb.readAll([["displayName", "==", name]]))[0].id;
-}
-
+};
 
 /**
  * Get username from uid
@@ -32,7 +31,7 @@ export const getUserIDFromUsername = async name => {
 export const getUsernameFromUserID = async uid => {
   const userDb = new UsersDB();
   return (await userDb.read(uid)).displayName;
-}
+};
 
 /**
  * Get user photo url from uid
@@ -40,4 +39,4 @@ export const getUsernameFromUserID = async uid => {
 export const getUserPhotoUrlFromUserID = async uid => {
   const userDb = new UsersDB();
   return (await userDb.read(uid)).photoURL;
-}
+};

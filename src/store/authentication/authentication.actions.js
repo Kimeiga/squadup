@@ -17,7 +17,7 @@ export default {
     commit("setUser", user);
     dispatch("products/getUserProducts", null, { root: true });
     dispatch("requests/getUserRequests", null, { root: true });
-    dispatch("friends/getUserFriends", null, { root: true});
+    dispatch("friends/getUserFriends", null, { root: true });
   },
 
   /**

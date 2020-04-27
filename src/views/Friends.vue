@@ -14,7 +14,7 @@ import AddFriend from "@/components/AddFriend";
 import RequestList from "@/components/RequestList";
 
 export default {
-  components: { FriendList, AddFriend, RequestList},
+  components: { FriendList, AddFriend, RequestList },
   computed: mapState("app", ["networkOnLine"])
 };
 </script>

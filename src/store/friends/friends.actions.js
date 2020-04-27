@@ -1,5 +1,8 @@
 import UserFriendsDB from "@/firebase/user-friends-db";
-import { getUsernameFromUserID, getUserPhotoUrlFromUserID } from "@/misc/helpers";
+import {
+  getUsernameFromUserID,
+  getUserPhotoUrlFromUserID
+} from "@/misc/helpers";
 
 export default {
   /**

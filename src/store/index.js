@@ -18,7 +18,7 @@ export default new Vuex.Store({
     app,
     products,
     friends,
-    requests
+    requests,
     squads
   }
 });

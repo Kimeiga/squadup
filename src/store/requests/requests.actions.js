@@ -31,8 +31,10 @@ export default {
     const userRequestDb = new UserRequestsDB(rootState.authentication.user.id);
 
     if (
-        (await friendRequestDb.readAll([["senderId", "==", rootState.authentication.user.id]])).length > 0
-        || (await userRequestDb.readAll([["senderId", "==", uid]])).length > 0
+      (await friendRequestDb.readAll([
+        ["senderId", "==", rootState.authentication.user.id]
+      ])).length > 0 ||
+      (await userRequestDb.readAll([["senderId", "==", uid]])).length > 0
     )
       return;
 
@@ -63,7 +65,10 @@ export default {
   /**
    * Accept a request from its id
    */
-  acceptUserRequest: async ({ commit, dispatch, getters, rootState }, requestId) => {
+  acceptUserRequest: async (
+    { commit, dispatch, getters, rootState },
+    requestId
+  ) => {
     if (getters.isRequestDeletionPending(requestId)) return;
 
     const userRequestsDb = new UserRequestsDB(rootState.authentication.user.id);
