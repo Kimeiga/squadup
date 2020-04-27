@@ -46,6 +46,12 @@ const router = new Router({
       }
     },
     {
+      path: "/friends",
+      name: "friends",
+      component: () =>
+       import(/* webpackChunkName: "client-chunk-friends" */ "@/views/Friends.vue")
+    },
+    {
       path: "/products",
       name: "products",
       component: () =>

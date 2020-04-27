@@ -3,6 +3,8 @@ import Vuex from "vuex";
 import authentication from "./authentication";
 import app from "./app";
 import products from "./products";
+import friends from "./friends";
+import requests from "./requests";
 
 Vue.use(Vuex);
 
@@ -13,6 +15,8 @@ export default new Vuex.Store({
   modules: {
     authentication,
     app,
-    products
+    products,
+    friends,
+    requests
   }
 });
