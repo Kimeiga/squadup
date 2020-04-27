@@ -113,12 +113,35 @@ export default {
       this.isLoading = true;
 
       // Lazily load input items
-      fetch("https://api-v3.igdb.com/games/")
+      this.$http
+        .get("https://api-v3.igdb.com/games/", {
+          async: true,
+          crossDomain: true,
+          url: "https://api-v3.igdb.com/games/",
+          method: "GET",
+          headers: {
+            "user-key": "38dd24f2082c71ed9932e989b61f7658",
+            "Content-Type": "text/plain",
+            "User-Agent": "PostmanRuntime/7.19.0",
+
+            "Cache-Control": "no-cache",
+            "Postman-Token":
+              "6bc49532-ba3e-4561-9a27-65f37158bb49,5a7bea29-5e7b-4a23-b7e3-2232bdaa49f3",
+            Host: "api-v3.igdb.com",
+            "Accept-Encoding": "gzip, deflate",
+            "Content-Length": "9",
+            Cookie: "__cfduid=d5c6a6e310b0cd8cc20bb3ef3f7e74a251587687242",
+            Connection: "keep-alive",
+            "cache-control": "no-cache"
+          },
+          data: "fields *;"
+        })
         .then(res => res.json())
         .then(res => {
           const { count, entries } = res;
           this.count = count;
           this.entries = entries;
+          console.log(res);
         })
         .catch(err => {
           console.log(err);
