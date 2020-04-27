@@ -43,9 +43,7 @@ export default {
       senderName: rootState.authentication.user.displayName,
       senderPhoto: rootState.authentication.user.photoURL
     };
-    console.log(req);
-    console.log(uid);
-    await userRequestDb.create(req);
+    await friendRequestDb.create(req);
   },
 
   /**
