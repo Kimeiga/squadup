@@ -8,6 +8,13 @@
     </router-link>
     <div
       v-if="!disableActions"
+      class="squad-btn"
+      @click="$emit('squadUpProduct', data.id)"
+    >
+      {{ isProductDeletionPending ? "delete in progress..." : "squad up" }}
+    </div>
+    <div
+      v-if="!disableActions"
       class="delete-btn"
       @click="$emit('deleteProduct', data.id)"
     >
@@ -38,6 +45,17 @@ export default {
 
   .product-link {
     color: $vue-color;
+  }
+
+  .squad-btn {
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid;
+    display: inline-block;
+    border-radius: 3px;
+    margin-left: auto;
+    color: $vue-color;
+    border-color: $vue-color;
   }
 
   .delete-btn {
