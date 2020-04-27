@@ -2,16 +2,23 @@
   <div class="product-item">
     <router-link
       class="product-link"
-      :to="{ name: 'product', params: { id: data.id } }"
+      :to="{ name: 'game', params: { id: data.id } }"
     >
       #{{ index }} {{ data.name }}
     </router-link>
     <div
       v-if="!disableActions"
+      class="squad-btn"
+      @click="$emit('squadUpProduct', data.id)"
+    >
+      {{ isProductDeletionPending ? "delete in progress..." : "squad up" }}
+    </div>
+    <div
+      v-if="!disableActions"
       class="delete-btn"
       @click="$emit('deleteProduct', data.id)"
     >
-      {{ isProductDeletionPending ? 'delete in progress...' : 'delete' }}
+      {{ isProductDeletionPending ? "delete in progress..." : "delete" }}
     </div>
   </div>
 </template>
@@ -24,11 +31,11 @@ export default {
     isProductDeletionPending: Boolean,
     disableActions: Boolean
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/theme/variables.scss';
+@import "@/theme/variables.scss";
 
 .product-item {
   display: flex;
@@ -38,6 +45,17 @@ export default {
 
   .product-link {
     color: $vue-color;
+  }
+
+  .squad-btn {
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid;
+    display: inline-block;
+    border-radius: 3px;
+    margin-left: auto;
+    color: $vue-color;
+    border-color: $vue-color;
   }
 
   .delete-btn {

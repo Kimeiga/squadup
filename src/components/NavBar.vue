@@ -11,7 +11,7 @@
           <router-link to="/friends">Friends</router-link>
         </div>
         <div class="nav-item">
-          <router-link to="/products">Products</router-link>
+          <router-link to="/games">Games</router-link>
         </div>
         <div v-if="!isUserLoggedIn && networkOnLine" class="nav-item">
           <router-link to="/login">Login</router-link>

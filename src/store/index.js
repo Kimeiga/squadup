@@ -5,6 +5,7 @@ import app from "./app";
 import products from "./products";
 import friends from "./friends";
 import requests from "./requests";
+import squads from "./squads";
 
 Vue.use(Vuex);
 
@@ -18,5 +19,6 @@ export default new Vuex.Store({
     products,
     friends,
     requests
+    squads
   }
 });
