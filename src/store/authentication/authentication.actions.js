@@ -16,6 +16,8 @@ export default {
 
     commit("setUser", user);
     dispatch("products/getUserProducts", null, { root: true });
+    dispatch("requests/getUserRequests", null, { root: true });
+    dispatch("friends/getUserFriends", null, { root: true });
   },
 
   /**
@@ -24,6 +26,8 @@ export default {
   logout: ({ commit }) => {
     commit("setUser", null);
     commit("products/setProducts", null, { root: true });
+    commit("requests/setRequests", null, { root: true });
+    commit("friends/setFriends", null, { root: true });
 
     const currentRouter = router.app.$route;
     if (!(currentRouter.meta && currentRouter.meta.authNotRequired)) {
