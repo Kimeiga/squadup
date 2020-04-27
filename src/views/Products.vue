@@ -1,6 +1,6 @@
 <template>
   <div class="page-wrapper">
-    <h1 class="products-page-title">Products page</h1>
+    <h1 class="products-page-title">Games page</h1>
     <product-list class="product-list"></product-list>
     <add-product v-if="networkOnLine"></add-product>
   </div>
