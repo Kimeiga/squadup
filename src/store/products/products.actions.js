@@ -19,6 +19,8 @@ export default {
 
     commit("setProductCreationPending", true);
     const createdProduct = await userProductDb.create(product);
+    console.log("createdProduct");
+    console.log(createdProduct);
     commit("addProduct", createdProduct);
     commit("setProductCreationPending", false);
   },

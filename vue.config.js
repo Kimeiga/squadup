@@ -7,5 +7,8 @@ module.exports = {
       swSrc: "public/service-worker.js"
     }
   },
-  transpileDependencies: ["vuetify"]
+  transpileDependencies: ["vuetify"],
+  configureWebpack: {
+    devtool: "source-map"
+  }
 };

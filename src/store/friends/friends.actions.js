@@ -24,16 +24,27 @@ export default {
 
     const name = await getUsernameFromUserID(friend);
     const photo = await getUserPhotoUrlFromUserID(friend);
+    console.log("friend");
+    debugger;
+    console.log({
+      friendId: friend,
+      friendName: name,
+      friendPhoto: photo
+    });
     const createdFriend = await userFriendDb.create({
       friendId: friend,
       friendName: name,
       friendPhoto: photo
     });
-    await friendFriendDb.create({
-      friendId: rootState.authentication.user.id,
-      friendName: rootState.authentication.displayName,
-      friendPhoto: rootState.authentication.user.photoURL
-    });
+    console.log(createdFriend);
+    await friendFriendDb
+      .create({
+        friendId: rootState.authentication.user.id,
+        friendName: rootState.authentication.user.displayName,
+        friendPhoto: rootState.authentication.user.photoURL
+      })
+      .then()
+      .catch(e => console.error(e));
     commit("addFriend", createdFriend);
   },
 

@@ -1,18 +1,18 @@
 <template>
   <div>
-    <h2 class="friend-list-title" >Friends List</h2>
+    <h2 class="friend-list-title">Friends List</h2>
     <p v-if="friends === null" class="infos-label">Loading...</p>
     <p v-if="friends && !friends.length" class="infos-label">
       You don't have any friends yet
     </p>
     <friend-item
       v-for="friend in friends"
-      :key="friend.id"
+      :key="friend.friendId"
       class="friend-row"
-      :is-friend-deletion-pending="isFriendDeletionPending(friend.id)"
+      :is-friend-deletion-pending="isFriendDeletionPending(friend.friendId)"
       :disable-actions="!networkOnLine"
       :data="friend"
-      @deleteFriend="deleteUserFriend"
+      @deleteUserFriend="deleteUserFriend"
     ></friend-item>
   </div>
 </template>
@@ -41,7 +41,7 @@ export default {
 
 .friend-list-title {
   text-align: center;
-};
+}
 
 .friend-row {
   display: flex;
