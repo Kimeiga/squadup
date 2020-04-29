@@ -34,6 +34,13 @@ export default class GenericDB {
 
     const docId = await createPromise;
 
+    console.log({
+      id: docId,
+      ...data,
+      createTimestamp: new Date(),
+      updateTimestamp: new Date()
+    });
+
     return {
       id: docId,
       ...data,

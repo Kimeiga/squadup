@@ -1,6 +1,7 @@
 import { getUserIDFromUsername } from "@/misc/helpers";
 
 import UserRequestsDB from "@/firebase/user-friend-requests-db";
+import UserFriendsDB from "@/firebase/user-friends-db";
 
 export default {
   /**
@@ -29,12 +30,18 @@ export default {
   sendUserRequest: async ({ rootState }, uid) => {
     const friendRequestDb = new UserRequestsDB(uid);
     const userRequestDb = new UserRequestsDB(rootState.authentication.user.id);
+    const userFriendsDb = new UserFriendsDB(rootState.authentication.user.id);
+    const friendsFriendsDb = new UserFriendsDB(uid);
 
     if (
       (await friendRequestDb.readAll([
         ["senderId", "==", rootState.authentication.user.id]
       ])).length > 0 ||
-      (await userRequestDb.readAll([["senderId", "==", uid]])).length > 0
+      (await userRequestDb.readAll([["senderId", "==", uid]])).length > 0 ||
+      (await userFriendsDb.readAll([["friendId", "==", uid]])).length > 0 ||
+      (await friendsFriendsDb.readAll([
+        ["friendId", "==", rootState.authentication.user.id]
+      ])).length > 0
     )
       return;
 
@@ -73,7 +80,7 @@ export default {
     commit("addRequestDeletionPending", requestId);
     await userRequestsDb.delete(requestId);
     const req = getters.getRequestById(requestId);
-    dispatch("/friends/createUserFriend", req.senderId);
+    dispatch("friends/createUserFriend", req.senderId, { root: true });
     commit("removeRequestById", requestId);
     commit("removeRequestDeletionPending", requestId);
   }
