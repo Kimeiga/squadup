@@ -4,6 +4,22 @@
     <img alt="logo-bento" class="logo" src="@/assets/img/bento-starter.svg" />
 
     <h2>Current Squads</h2>
+    <p v-if="squads === null" class="infos-label">Loading...</p>
+    <p v-if="squads && !squads.length" class="infos-label">
+      You don't have any squads yet
+    </p>
+    <div v-for="squad in squads" :key="squad.id">
+      <router-link
+        class="product-link"
+        :to="{ name: 'squad', params: { id: squad.id } }"
+      >
+        {{ squad.game }}
+        Creator:
+        <p v-if="squadToCreator && squadToCreator[squad.id]">
+          {{ squadToCreator[squad.id].displayName }}
+        </p>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -25,7 +41,11 @@ export default {
       ]
     };
   },
-  computed: mapState("app", ["appTitle"])
+  computed: {
+    ...mapState("app", ["appTitle"]),
+    ...mapState("squads", ["squads"]),
+    ...mapState("squads", ["squadToCreator"])
+  }
 };
 </script>
 

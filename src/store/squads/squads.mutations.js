@@ -21,5 +21,12 @@ export default {
 
   /* Squad creation */
   setSquadCreationPending: (state, value) =>
-    (state.squadCreationPending = value)
+    (state.squadCreationPending = value),
+
+  // get users in each squad
+  setSquadToCreator: (state, { squad, creator }) => {
+    console.log(creator);
+    // for current squad, set users
+    state.squadToCreator[squad.id] = creator;
+  }
 };

@@ -18,6 +18,7 @@ export default {
     dispatch("products/getUserProducts", null, { root: true });
     dispatch("requests/getUserRequests", null, { root: true });
     dispatch("friends/getUserFriends", null, { root: true });
+    dispatch("squads/getSquads", null, { root: true });
   },
 
   /**
@@ -28,6 +29,7 @@ export default {
     commit("products/setProducts", null, { root: true });
     commit("requests/setRequests", null, { root: true });
     commit("friends/setFriends", null, { root: true });
+    commit("squads/setSquads", null, { root: true });
 
     const currentRouter = router.app.$route;
     if (!(currentRouter.meta && currentRouter.meta.authNotRequired)) {
