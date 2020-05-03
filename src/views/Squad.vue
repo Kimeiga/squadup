@@ -1,7 +1,10 @@
 <template>
   <div class="page-wrapper">
-    <h1 v-if="currentSquad">Squad: {{ currentSquad }}</h1>
+    <h1 v-if="currentSquad">Squad: {{ currentSquad.game }}</h1>
     {{ $route.params }}
+    <h3 v-for="user in currentSquad.users" :key="user.id">
+      {{ user }}
+    </h3>
   </div>
 </template>
 
