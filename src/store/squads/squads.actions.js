@@ -13,16 +13,9 @@ export default {
 
     commit("setSquads", squads);
 
-    const haha = await new UsersDB().read("T6K36Yq4nHSoF0BR2U3ylY6ipov1");
-    console.log(haha);
-
     // eslint-disable-next-line no-unused-vars
     for (const squad of squads) {
-      console.log(squad);
-      console.log(squad.creator);
       const creator = await new UsersDB().read(squad.creator);
-
-      console.log(creator);
 
       commit("setSquadToCreator", { squad, creator });
     }

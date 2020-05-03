@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   head() {
@@ -28,11 +28,10 @@ export default {
     ...mapState("squads", ["squads"]),
     ...mapState("squads", ["squadToCreator"]),
     currentSquad() {
+      console.log(this.$route.params.id);
       return this.getSquadById(this.$route.params.id);
-    }
-  },
-  methods: {
-    ...mapActions({ getSquadById: "squads/getSquadById" })
+    },
+    ...mapGetters("squads", ["getSquadById"])
   }
 };
 </script>

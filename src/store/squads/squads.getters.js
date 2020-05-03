@@ -11,5 +11,5 @@ export default {
    * Get squad by id
    */
   getSquadById: state => squadID =>
-    find(state.products, product => product.id === squadID)
+    find(state.squads, squad => squad.id === squadID)
 };
