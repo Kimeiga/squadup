@@ -5,7 +5,7 @@ export default {
 
   /* Squads */
   setSquads: (state, squads) => (state.squads = squads),
-  addSquad: (state, squad) => state.products.push(squad),
+  addSquad: (state, squad) => state.squads.push(squad),
   removeSquadById: (state, squadID) => {
     const index = state.squads.findIndex(squad => squad.id === squadID);
     state.squads.splice(index, 1);

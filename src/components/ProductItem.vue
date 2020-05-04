@@ -11,7 +11,7 @@
       class="squad-btn"
       @click="$emit('squadUpProduct', data.id)"
     >
-      {{ isProductDeletionPending ? "delete in progress..." : "squad up" }}
+      {{ "squad up" }}
     </div>
     <div
       v-if="!disableActions"

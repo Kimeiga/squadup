@@ -24,13 +24,25 @@ export default {
   /**
    * Create a product for current loggedin user
    */
-  createSquad: async ({ commit }, squad) => {
+  createSquad: async ({ rootState, commit }, product) => {
     const squadDB = new SquadsDB();
 
+    const newSquad = {
+      creator: rootState.authentication.user.id,
+      game: product.name,
+      users: [rootState.authentication.user.displayName]
+    };
+
+    console.log("newSquad");
+    console.log(newSquad);
+
     commit("setSquadCreationPending", true);
-    const createdSquad = await squadDB.create(squad);
+    const createdSquad = await squadDB.create(newSquad);
+    console.log("createdSquad");
+    console.log(createdSquad);
     commit("addSquad", createdSquad);
     commit("setSquadCreationPending", false);
+    return createdSquad.id;
   },
 
   // /**
