@@ -1,4 +1,7 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 import SquadsDB from "@/firebase/squads-db";
+import UsersDB from "@/firebase/users-db";
 
 export default {
   /**
@@ -6,21 +9,40 @@ export default {
    */
   getSquads: async ({ commit }) => {
     const squadsDB = new SquadsDB();
-
     const squads = await squadsDB.readAll();
+
     commit("setSquads", squads);
+
+    // eslint-disable-next-line no-unused-vars
+    for (const squad of squads) {
+      const creator = await new UsersDB().read(squad.creator);
+
+      commit("setSquadToCreator", { squad, creator });
+    }
   },
 
   /**
    * Create a product for current loggedin user
    */
-  createSquad: async ({ commit }, squad) => {
+  createSquad: async ({ rootState, commit }, product) => {
     const squadDB = new SquadsDB();
 
+    const newSquad = {
+      creator: rootState.authentication.user.id,
+      game: product.name,
+      users: [rootState.authentication.user.displayName]
+    };
+
+    console.log("newSquad");
+    console.log(newSquad);
+
     commit("setSquadCreationPending", true);
-    const createdSquad = await squadDB.create(squad);
+    const createdSquad = await squadDB.create(newSquad);
+    console.log("createdSquad");
+    console.log(createdSquad);
     commit("addSquad", createdSquad);
     commit("setSquadCreationPending", false);
+    return createdSquad.id;
   },
 
   // /**
@@ -46,5 +68,22 @@ export default {
     await squadDB.delete(squadID);
     commit("removeSquadById", squadID);
     commit("removeSquadDeletionPending", squadID);
+  },
+
+  joinSquad: async ({ rootState }, squadID) => {
+    const squadDB = new SquadsDB();
+
+    const squad = await squadDB.read(squadID);
+    squad.users.push(rootState.authentication.user.displayName);
+    await squadDB.update(squad);
+  },
+
+  leaveSquad: async ({ rootState }, squadID) => {
+    const squadDB = new SquadsDB();
+
+    const squad = await squadDB.read(squadID);
+    const idx = squad.users.indexOf(rootState.authentication.user.displayName);
+    squad.users.splice(idx,1);
+    await squadDB.update(squad);
   }
 };

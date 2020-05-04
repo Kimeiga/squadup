@@ -5,7 +5,7 @@ export default {
 
   /* Squads */
   setSquads: (state, squads) => (state.squads = squads),
-  addSquad: (state, squad) => state.products.push(squad),
+  addSquad: (state, squad) => state.squads.push(squad),
   removeSquadById: (state, squadID) => {
     const index = state.squads.findIndex(squad => squad.id === squadID);
     state.squads.splice(index, 1);
@@ -21,5 +21,11 @@ export default {
 
   /* Squad creation */
   setSquadCreationPending: (state, value) =>
-    (state.squadCreationPending = value)
+    (state.squadCreationPending = value),
+
+  // get users in each squad
+  setSquadToCreator: (state, { squad, creator }) => {
+    // for current squad, set users
+    state.squadToCreator[squad.id] = creator;
+  }
 };

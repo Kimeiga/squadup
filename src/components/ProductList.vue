@@ -13,6 +13,7 @@
       :disable-actions="!networkOnLine"
       :data="product"
       @deleteProduct="deleteUserProduct"
+      @squadUpProduct="triggerCreateSquad(product)"
     ></product-item>
   </div>
 </template>
@@ -28,7 +29,14 @@ export default {
     ...mapState("products", ["products"]),
     ...mapState("app", ["networkOnLine"])
   },
-  methods: mapActions("products", ["deleteUserProduct"])
+  methods: {
+    ...mapActions("products", ["deleteUserProduct"]),
+    ...mapActions("squads", ["createSquad"]),
+    async triggerCreateSquad(product) {
+      const createdSquadId = await this.createSquad(product);
+      this.$router.push(`/squads/${createdSquadId}`);
+    }
+  }
 };
 </script>
 

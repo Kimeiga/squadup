@@ -64,6 +64,13 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName: "client-chunk-product-details" */ "@/views/Product.vue")
     },
+    {
+      path: "/squads/:id",
+      name: "squad",
+      props: true,
+      component: () =>
+        import(/* webpackChunkName: "client-chunk-product-details" */ "@/views/Squad.vue")
+    },
     { path: "*", redirect: "/home" }
   ]
 });
