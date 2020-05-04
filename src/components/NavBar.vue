@@ -1,7 +1,7 @@
 <template>
   <header class="navbar" :class="{ offline: !networkOnLine }">
     <router-link to="/home">
-      <img alt="logo-bento" class="logo" src="@/assets/img/bento-starter.svg" />
+      <img alt="logo-bento" class="logo" src="@/assets/img/squad_up_logo.png" />
       <span class="site-name title-desktop">{{ appTitle }}</span>
       <span class="site-name title-mobile">{{ appShortTitle }}</span>
     </router-link>
@@ -77,6 +77,7 @@ export default {
 
   .title-desktop {
     display: inline;
+    color: white !important;
   }
 
   .title-mobile {
@@ -92,6 +93,7 @@ export default {
 
     .title-desktop {
       display: none;
+      color: white !important;
     }
 
     .title-mobile {

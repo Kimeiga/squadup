@@ -1,7 +1,11 @@
 <template>
   <div class="page-wrapper">
     <h1 class="home-page-title">{{ appTitle }}</h1>
-    <img alt="logo-bento" class="logo" src="@/assets/img/bento-starter.svg" />
+    <img
+      alt="logo-bento"
+      class="logo"
+      src="@/assets/img/squad_up_logo_dark.png"
+    />
 
     <h2>Current Squads</h2>
     <p v-if="squads === null" class="infos-label">Loading...</p>
@@ -60,6 +64,7 @@ export default {
 
   .logo {
     margin-bottom: 3rem;
+    height: 100px;
   }
 
   .home-page-title {
