@@ -80,7 +80,6 @@ export default {
   padding: 1.2em 2.8em;
   text-decoration: none;
   text-align: center;
-  text-transform: uppercase;
   font-weight: 700;
 
   &:hover,
@@ -92,6 +91,10 @@ export default {
 
 .squad-button a {
   color: #fff !important;
+}
+.squad-button p {
+  margin: 0;
+  font-weight: 300;
 }
 
 .page-wrapper {
