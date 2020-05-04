@@ -6,6 +6,11 @@ gcam<template>
       class="logo"
       src="@/assets/img/squad_up_logo_dark.png"
     />
+    <p>
+      Welcome to <strong>Squad Up</strong>, a site designed to give gamers the
+      ability to form squads and meet friends.
+    </p>
+    <p>Click a squad below to join and meet gamers.</p>
 
     <h2>Current Squads</h2>
     <p v-if="squads === null" class="infos-label">Loading...</p>
