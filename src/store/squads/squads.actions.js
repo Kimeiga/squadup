@@ -68,5 +68,22 @@ export default {
     await squadDB.delete(squadID);
     commit("removeSquadById", squadID);
     commit("removeSquadDeletionPending", squadID);
+  },
+
+  joinSquad: async ({ rootState }, squadID) => {
+    const squadDB = new SquadsDB();
+
+    const squad = await squadDB.read(squadID);
+    squad.users.push(rootState.authentication.user.displayName);
+    await squadDB.update(squad);
+  },
+
+  leaveSquad: async ({ rootState }, squadID) => {
+    const squadDB = new SquadsDB();
+
+    const squad = await squadDB.read(squadID);
+    const idx = squad.users.indexOf(rootState.authentication.user.displayName);
+    squad.users.splice(idx,1);
+    await squadDB.update(squad);
   }
 };
