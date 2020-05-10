@@ -144,6 +144,13 @@ gcam<template>
         </button>
       </div>
     </div>
+
+    <br />
+
+    <h3>Wanna start your own squad?</h3>
+    <button class="squad-button">
+      <router-link to="/games">Create Squad</router-link>
+    </button>
   </div>
 </template>
 
