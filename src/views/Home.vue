@@ -13,10 +13,42 @@ gcam<template>
     <p>Click a squad below to join and meet gamers.</p>
 
     <h2>Current Squads</h2>
+
+    <br />
+
     <p v-if="squads === null" class="infos-label">Loading...</p>
     <p v-if="squads && !squads.length" class="infos-label">
       You don't have any squads yet
     </p>
+
+    <!-- Squad Grid -->
+    <div class="squad-container">
+      <div class="squad-item">
+        <img src="/img/csgo.png" alt="csgo" />
+        <p>CS:GO</p>
+      </div>
+      <div class="squad-item">
+        <img src="/img/league_of_legends.png" alt="league_of_legends" />
+        <p>League of Legends</p>
+      </div>
+      <div class="squad-item">
+        <img src="/img/dota.png" alt="dota" />
+        <p>DOTA 2</p>
+      </div>
+      <div class="squad-item">
+        <img src="/img/minecraft.png" alt="minecraft" />
+        <p>Minecraft</p>
+      </div>
+      <div class="squad-item">
+        <img src="/img/valorant.png" alt="valorant" />
+        <p>Valorant</p>
+      </div>
+      <div class="squad-item">
+        <img src="/img/fortnite.png" alt="fortnite" />
+        <p>Fortnite</p>
+      </div>
+    </div>
+
     <button v-for="squad in squads" :key="squad.id" class="squad-button">
       <router-link
         class="product-link"
@@ -60,6 +92,23 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/theme/variables.scss";
+
+.squad-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr [col-start]);
+  width: 100%;
+}
+
+.squad-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    font-weight: bold;
+    font-size: 1.4rem;
+  }
+}
 
 .squad-button {
   border-color: #46bd87;
