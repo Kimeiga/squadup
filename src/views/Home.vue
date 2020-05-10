@@ -26,7 +26,11 @@ gcam<template>
       <div class="squad-item">
         <img src="/img/csgo.png" alt="csgo" />
         <h3>CS:GO</h3>
-        <button v-for="squad in squads" :key="squad.id" class="squad-button">
+        <button
+          v-for="squad in csgoSquads"
+          :key="squad.id"
+          class="squad-button"
+        >
           <router-link
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
@@ -42,7 +46,11 @@ gcam<template>
       <div class="squad-item">
         <img src="/img/league_of_legends.png" alt="league_of_legends" />
         <h3>League of Legends</h3>
-        <button v-for="squad in squads" :key="squad.id" class="squad-button">
+        <button
+          v-for="squad in leagueOfLegendsSquads"
+          :key="squad.id"
+          class="squad-button"
+        >
           <router-link
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
@@ -58,7 +66,11 @@ gcam<template>
       <div class="squad-item">
         <img src="/img/dota.png" alt="dota" />
         <h3>DOTA 2</h3>
-        <button v-for="squad in squads" :key="squad.id" class="squad-button">
+        <button
+          v-for="squad in dotaSquads"
+          :key="squad.id"
+          class="squad-button"
+        >
           <router-link
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
@@ -74,7 +86,11 @@ gcam<template>
       <div class="squad-item">
         <img src="/img/minecraft.png" alt="minecraft" />
         <h3>Minecraft</h3>
-        <button v-for="squad in squads" :key="squad.id" class="squad-button">
+        <button
+          v-for="squad in minecraftSquads"
+          :key="squad.id"
+          class="squad-button"
+        >
           <router-link
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
@@ -90,7 +106,11 @@ gcam<template>
       <div class="squad-item">
         <img src="/img/valorant.png" alt="valorant" />
         <h3>Valorant</h3>
-        <button v-for="squad in squads" :key="squad.id" class="squad-button">
+        <button
+          v-for="squad in valorantSquads"
+          :key="squad.id"
+          class="squad-button"
+        >
           <router-link
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
@@ -106,7 +126,11 @@ gcam<template>
       <div class="squad-item">
         <img src="/img/fortnite.png" alt="fortnite" />
         <h3>Fortnite</h3>
-        <button v-for="squad in squads" :key="squad.id" class="squad-button">
+        <button
+          v-for="squad in fortniteSquads"
+          :key="squad.id"
+          class="squad-button"
+        >
           <router-link
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
@@ -144,7 +168,25 @@ export default {
   computed: {
     ...mapState("app", ["appTitle"]),
     ...mapState("squads", ["squads"]),
-    ...mapState("squads", ["squadToCreator"])
+    ...mapState("squads", ["squadToCreator"]),
+    csgoSquads() {
+      return this.squads.filter(squad => squad.game === "Counter-Strike");
+    },
+    valorantSquads() {
+      return this.squads.filter(squad => squad.game === "Valorant");
+    },
+    minecraftSquads() {
+      return this.squads.filter(squad => squad.game === "Minecraft");
+    },
+    dotaSquads() {
+      return this.squads.filter(squad => squad.game === "DOTA");
+    },
+    fortniteSquads() {
+      return this.squads.filter(squad => squad.game === "Fortnite");
+    },
+    leagueOfLegendsSquads() {
+      return this.squads.filter(squad => squad.game === "League of Legends");
+    }
   }
 };
 </script>
