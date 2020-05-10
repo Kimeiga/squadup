@@ -25,42 +25,101 @@ gcam<template>
     <div class="squad-container">
       <div class="squad-item">
         <img src="/img/csgo.png" alt="csgo" />
-        <p>CS:GO</p>
+        <h3>CS:GO</h3>
+        <button v-for="squad in squads" :key="squad.id" class="squad-button">
+          <router-link
+            class="product-link"
+            :to="{ name: 'squad', params: { id: squad.id } }"
+          >
+            {{ squad.game }}
+            <p v-if="squadToCreator && squadToCreator[squad.id]">
+              Creator:
+              {{ squadToCreator[squad.id].displayName }}
+            </p>
+          </router-link>
+        </button>
       </div>
       <div class="squad-item">
         <img src="/img/league_of_legends.png" alt="league_of_legends" />
-        <p>League of Legends</p>
+        <h3>League of Legends</h3>
+        <button v-for="squad in squads" :key="squad.id" class="squad-button">
+          <router-link
+            class="product-link"
+            :to="{ name: 'squad', params: { id: squad.id } }"
+          >
+            {{ squad.game }}
+            <p v-if="squadToCreator && squadToCreator[squad.id]">
+              Creator:
+              {{ squadToCreator[squad.id].displayName }}
+            </p>
+          </router-link>
+        </button>
       </div>
       <div class="squad-item">
         <img src="/img/dota.png" alt="dota" />
-        <p>DOTA 2</p>
+        <h3>DOTA 2</h3>
+        <button v-for="squad in squads" :key="squad.id" class="squad-button">
+          <router-link
+            class="product-link"
+            :to="{ name: 'squad', params: { id: squad.id } }"
+          >
+            {{ squad.game }}
+            <p v-if="squadToCreator && squadToCreator[squad.id]">
+              Creator:
+              {{ squadToCreator[squad.id].displayName }}
+            </p>
+          </router-link>
+        </button>
       </div>
       <div class="squad-item">
         <img src="/img/minecraft.png" alt="minecraft" />
-        <p>Minecraft</p>
+        <h3>Minecraft</h3>
+        <button v-for="squad in squads" :key="squad.id" class="squad-button">
+          <router-link
+            class="product-link"
+            :to="{ name: 'squad', params: { id: squad.id } }"
+          >
+            {{ squad.game }}
+            <p v-if="squadToCreator && squadToCreator[squad.id]">
+              Creator:
+              {{ squadToCreator[squad.id].displayName }}
+            </p>
+          </router-link>
+        </button>
       </div>
       <div class="squad-item">
         <img src="/img/valorant.png" alt="valorant" />
-        <p>Valorant</p>
+        <h3>Valorant</h3>
+        <button v-for="squad in squads" :key="squad.id" class="squad-button">
+          <router-link
+            class="product-link"
+            :to="{ name: 'squad', params: { id: squad.id } }"
+          >
+            {{ squad.game }}
+            <p v-if="squadToCreator && squadToCreator[squad.id]">
+              Creator:
+              {{ squadToCreator[squad.id].displayName }}
+            </p>
+          </router-link>
+        </button>
       </div>
       <div class="squad-item">
         <img src="/img/fortnite.png" alt="fortnite" />
-        <p>Fortnite</p>
+        <h3>Fortnite</h3>
+        <button v-for="squad in squads" :key="squad.id" class="squad-button">
+          <router-link
+            class="product-link"
+            :to="{ name: 'squad', params: { id: squad.id } }"
+          >
+            {{ squad.game }}
+            <p v-if="squadToCreator && squadToCreator[squad.id]">
+              Creator:
+              {{ squadToCreator[squad.id].displayName }}
+            </p>
+          </router-link>
+        </button>
       </div>
     </div>
-
-    <button v-for="squad in squads" :key="squad.id" class="squad-button">
-      <router-link
-        class="product-link"
-        :to="{ name: 'squad', params: { id: squad.id } }"
-      >
-        {{ squad.game }}
-        <p v-if="squadToCreator && squadToCreator[squad.id]">
-          Creator:
-          {{ squadToCreator[squad.id].displayName }}
-        </p>
-      </router-link>
-    </button>
   </div>
 </template>
 
@@ -104,10 +163,10 @@ export default {
   flex-direction: column;
   align-items: center;
 
-  p {
-    font-weight: bold;
-    font-size: 1.4rem;
-  }
+  // p {
+  //   font-weight: bold;
+  //   font-size: 1.4rem;
+  // }
 }
 
 .squad-button {
