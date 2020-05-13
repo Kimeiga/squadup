@@ -13,29 +13,134 @@ gcam<template>
     <p>Click a squad below to join and meet gamers.</p>
 
     <h2>Current Squads</h2>
+
+    <br />
+
     <p v-if="squads === null" class="infos-label">Loading...</p>
     <p v-if="squads && !squads.length" class="infos-label">
       You don't have any squads yet
     </p>
-    <button v-for="squad in squads" :key="squad.id" class="squad-button">
-      <router-link
-        class="product-link"
-        :to="{ name: 'squad', params: { id: squad.id } }"
-      >
-        {{ squad.game }}
-        <p v-if="squadToCreator && squadToCreator[squad.id]">
-          Creator:
-          {{ squadToCreator[squad.id].displayName }}
-        </p>
-      </router-link>
+
+    <!-- Squad Grid -->
+    <div class="squad-container">
+      <div class="squad-item">
+        <img src="/img/csgo.png" alt="csgo" />
+        <h3>CS:GO</h3>
+        <button
+          v-for="squad in csgoSquads"
+          :key="squad.id"
+          class="squad-button"
+        >
+          <router-link
+            class="product-link"
+            :to="{ name: 'squad', params: { id: squad.id } }"
+          >
+            {{ squad.game }} {{ squad.users.length }}/5
+          </router-link>
+        </button>
+      </div>
+      <div class="squad-item">
+        <img src="/img/league_of_legends.png" alt="league_of_legends" />
+        <h3>League of Legends</h3>
+        <button
+          v-for="squad in leagueOfLegendsSquads"
+          :key="squad.id"
+          class="squad-button"
+        >
+          <router-link
+            class="product-link"
+            :to="{ name: 'squad', params: { id: squad.id } }"
+          >
+            {{ squad.game }} {{ squad.users.length }}/5
+          </router-link>
+        </button>
+      </div>
+      <div class="squad-item">
+        <img src="/img/dota.png" alt="dota" />
+        <h3>DOTA 2</h3>
+        <button
+          v-for="squad in dotaSquads"
+          :key="squad.id"
+          class="squad-button"
+        >
+          <router-link
+            class="product-link"
+            :to="{ name: 'squad', params: { id: squad.id } }"
+          >
+            {{ squad.game }} {{ squad.users.length }}/5
+          </router-link>
+        </button>
+      </div>
+      <div class="squad-item">
+        <img src="/img/minecraft.png" alt="minecraft" />
+        <h3>Minecraft</h3>
+        <button
+          v-for="squad in minecraftSquads"
+          :key="squad.id"
+          class="squad-button"
+        >
+          <router-link
+            class="product-link"
+            :to="{ name: 'squad', params: { id: squad.id } }"
+          >
+            {{ squad.game }}
+          </router-link>
+        </button>
+      </div>
+      <div class="squad-item">
+        <img src="/img/valorant.png" alt="valorant" />
+        <h3>Valorant</h3>
+        <button
+          v-for="squad in valorantSquads"
+          :key="squad.id"
+          class="squad-button"
+        >
+          <router-link
+            class="product-link"
+            :to="{ name: 'squad', params: { id: squad.id } }"
+          >
+            {{ squad.game }} {{ squad.users.length }}/5
+          </router-link>
+        </button>
+      </div>
+      <div class="squad-item">
+        <img src="/img/fortnite.png" alt="fortnite" />
+        <h3>Fortnite</h3>
+        <button
+          v-for="squad in fortniteSquads"
+          :key="squad.id"
+          class="squad-button"
+        >
+          <router-link
+            class="product-link"
+            :to="{ name: 'squad', params: { id: squad.id } }"
+          >
+            {{ squad.game }} {{ squad.users.length }}/4
+          </router-link>
+        </button>
+      </div>
+    </div>
+
+    <br />
+
+    <h3 v-if="creatingSquad === false" >Wanna start your own squad?</h3>
+    <button
+      v-if="creatingSquad === false" 
+      class="squad-button"
+      @click="setSquadCreating(true)"
+    >
+      Create Squad
     </button>
+    <create-squad></create-squad>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
+import CreateSquad from "@/components/CreateSquad";
 
 export default {
+  components: { CreateSquad },
   head() {
     return {
       title: {
@@ -50,16 +155,56 @@ export default {
       ]
     };
   },
+  created() {
+    this.$store.dispatch("squads/getSquads");
+  },
   computed: {
     ...mapState("app", ["appTitle"]),
-    ...mapState("squads", ["squads"]),
-    ...mapState("squads", ["squadToCreator"])
+    ...mapState("squads", ["squads", "creatingSquad"]),
+    csgoSquads() {
+      return this.squads.filter(squad => squad.game === "Counter-Strike");
+    },
+    valorantSquads() {
+      return this.squads.filter(squad => squad.game === "Valorant");
+    },
+    minecraftSquads() {
+      return this.squads.filter(squad => squad.game === "Minecraft");
+    },
+    dotaSquads() {
+      return this.squads.filter(squad => squad.game === "DOTA");
+    },
+    fortniteSquads() {
+      return this.squads.filter(squad => squad.game === "Fortnite");
+    },
+    leagueOfLegendsSquads() {
+      return this.squads.filter(squad => squad.game === "League of Legends");
+    }
+  },
+  methods: {
+    ...mapMutations("squads", ["setSquadCreating"])
   }
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/theme/variables.scss";
+
+.squad-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr [col-start]);
+  width: 100%;
+}
+
+.squad-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  // p {
+  //   font-weight: bold;
+  //   font-size: 1.4rem;
+  // }
+}
 
 .squad-button {
   border-color: #46bd87;

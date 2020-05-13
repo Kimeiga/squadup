@@ -31,10 +31,10 @@ service cloud.firestore {
     }
 
     match /squads/{squadID} {
-      allow get: if authenticated();
-      allow list: if authenticated();
-      allow create: if authenticated();
-      allow update: if authenticated();
+      allow get: if true;
+      allow list: if true;
+      allow create: if true;
+      allow update: if true;
     }
   }
 }
