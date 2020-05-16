@@ -69,7 +69,10 @@ const router = new Router({
       name: "squad",
       props: true,
       component: () =>
-        import(/* webpackChunkName: "client-chunk-product-details" */ "@/views/Squad.vue")
+        import(/* webpackChunkName: "client-chunk-product-details" */ "@/views/Squad.vue"),
+      meta: {
+        authNotRequired: true
+      }
     },
     { path: "*", redirect: "/home" }
   ]

@@ -1,7 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 import SquadsDB from "@/firebase/squads-db";
-import UsersDB from "@/firebase/users-db";
 
 export default {
   /**
@@ -12,13 +11,15 @@ export default {
     const squads = await squadsDB.readAll();
 
     commit("setSquads", squads);
+  },
 
-    // eslint-disable-next-line no-unused-vars
-    for (const squad of squads) {
-      const creator = await new UsersDB().read(squad.creator);
+  clearCurrentSquad: async ({ commit }) => {
+    commit("setSquad", null);
+  },
 
-      commit("setSquadToCreator", { squad, creator });
-    }
+  getCurrentSquad: async ({ commit }, squadID) => {
+    const squadsDB = new SquadsDB();
+    commit("setSquad", await squadsDB.read(squadID));
   },
 
   /**
@@ -28,7 +29,6 @@ export default {
     const squadDB = new SquadsDB();
 
     const newSquad = {
-      creator: rootState.authentication.user.id,
       game: product.name,
       users: [rootState.authentication.user.displayName]
     };
@@ -43,6 +43,33 @@ export default {
     commit("addSquad", createdSquad);
     commit("setSquadCreationPending", false);
     return createdSquad.id;
+  },
+
+  newSquad: async ({commit, state}) => {
+    if (state.squadUserToCreate === "") return;
+    if (state.squadGameToCreate === "") return;
+
+    const squadDB = new SquadsDB();
+
+    const newSquad = {
+      game: state.squadGameToCreate,
+      users: [state.squadUserToCreate],
+      time: null
+    };
+
+    commit("setSquadCreationPending", true);
+    const createdSquad = await squadDB.create(newSquad);
+    commit("addSquad", createdSquad);
+    commit("setSquadCreationPending", false);
+    commit("setSquadUserToCreate", "");
+    commit("setSquadGameToCreate", "");
+    commit("setSquadCreating", false);
+  },
+
+  clearSquadCreating: async ({commit}) => {
+    commit("setSquadUserToCreate", "");
+    commit("setSquadGameToCreate", "");
+    commit("setSquadCreating", false);
   },
 
   // /**
@@ -70,20 +97,32 @@ export default {
     commit("removeSquadDeletionPending", squadID);
   },
 
-  joinSquad: async ({ rootState }, squadID) => {
+  joinSquad: async ({ rootState, commit }, squadID) => {
     const squadDB = new SquadsDB();
 
     const squad = await squadDB.read(squadID);
     squad.users.push(rootState.authentication.user.displayName);
     await squadDB.update(squad);
+    commit("setSquad", squad);
   },
 
-  leaveSquad: async ({ rootState }, squadID) => {
+  join: async ({ state, commit }, squadID) => {
+    const squadDB = new SquadsDB();
+
+    const squad = await squadDB.read(squadID);
+    squad.users.push(state.squadUserToCreate);
+    await squadDB.update(squad);
+    commit("setSquadUserToCreate", "");
+    commit("setSquad", squad);
+  },
+
+  leaveSquad: async ({ rootState, commit }, squadID) => {
     const squadDB = new SquadsDB();
 
     const squad = await squadDB.read(squadID);
     const idx = squad.users.indexOf(rootState.authentication.user.displayName);
     squad.users.splice(idx, 1);
     await squadDB.update(squad);
+    commit("setSquad", squad);
   }
 };
