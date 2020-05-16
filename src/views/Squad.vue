@@ -4,23 +4,15 @@
       <h1 v-if="currentSquad" class="squad-name">
         Squad: {{ currentSquad.game }}
       </h1>
-      <div
-        v-if="user === null && notFull()"
-        class="add-user-by-name"
-      >
+      <div v-if="user === null && notFull()" class="add-user-by-name">
         <input
           type="text"
           class="squad-user-input"
-          :placeholder=idName
+          :placeholder="idName"
           :value="squadUserToCreate"
           @input="setSquadUserToCreate($event.target.value)"
         />
-        <div
-          class="accept-btn"
-          @click="join(currentSquad.id)"
-        >
-          Join
-        </div>
+        <div class="accept-btn" @click="join(currentSquad.id)">Join</div>
       </div>
       <div
         v-if="user && userCanLeave(user.displayName)"
@@ -36,8 +28,8 @@
       >
         Join
       </div>
-      <div 
-        v-if="!notFull() && !(user && userCanLeave(user.displayName))" 
+      <div
+        v-if="!notFull() && !(user && userCanLeave(user.displayName))"
         class="full"
       >
         Squad Full
@@ -71,18 +63,23 @@ export default {
     ...mapActions("squads", ["joinSquad", "leaveSquad", "join"]),
     ...mapMutations("squads", ["setSquadUserToCreate"]),
     userCanLeave(user) {
-      return (this.currentSquad.users.indexOf(user) > -1);
+      return this.currentSquad.users.indexOf(user) > -1;
     },
     userCanJoin(user) {
-      return (this.currentSquad.users.indexOf(user) === -1);
+      return this.currentSquad.users.indexOf(user) === -1;
     },
     notFull() {
-      if(this.currentSquad.game === "Valorant") return this.currentSquad.users.length < 5;
-      if(this.currentSquad.game === "League of Legends") return this.currentSquad.users.length < 5;
-      if(this.currentSquad.game === "DOTA 2") return this.currentSquad.users.length < 5;
-      if(this.currentSquad.game === "Fortnite") return this.currentSquad.users.length < 4;
-      if(this.currentSquad.game === "Counter-Strike") return this.currentSquad.users.length < 5;
-      if(this.currentSquad.game === "Minecraft") return true;
+      if (this.currentSquad.game === "Valorant")
+        return this.currentSquad.users.length < 5;
+      if (this.currentSquad.game === "League of Legends")
+        return this.currentSquad.users.length < 5;
+      if (this.currentSquad.game === "DOTA 2")
+        return this.currentSquad.users.length < 5;
+      if (this.currentSquad.game === "Fortnite")
+        return this.currentSquad.users.length < 4;
+      if (this.currentSquad.game === "Counter-Strike")
+        return this.currentSquad.users.length < 5;
+      if (this.currentSquad.game === "Minecraft") return true;
       return this.currrentSquad.users.length < 5;
     }
   },
@@ -96,13 +93,13 @@ export default {
     ...mapState("squads", ["squads", "currentSquad", "squadUserToCreate"]),
     ...mapGetters("squads", ["getSquadById"]),
     idName() {
-      if(this.currentSquad.game === "Valorant") return "Riot ID";
-      if(this.currentSquad.game === "League of Legends") return "Riot ID";
-      if(this.currentSquad.game === "DOTA 2") return "Dota Username";
-      if(this.currentSquad.game === "Fortnite") return "Epic Games Username";
-      if(this.currentSquad.game === "Counter-Strike") return "Steam Username";
-      if(this.currentSquad.game === "Minecraft") return "Mojang ID";
-      return "Game Username"
+      if (this.currentSquad.game === "Valorant") return "Riot ID";
+      if (this.currentSquad.game === "League of Legends") return "Riot ID";
+      if (this.currentSquad.game === "DOTA 2") return "Dota Username";
+      if (this.currentSquad.game === "Fortnite") return "Epic Games Username";
+      if (this.currentSquad.game === "Counter-Strike") return "Steam Username";
+      if (this.currentSquad.game === "Minecraft") return "Mojang ID";
+      return "Game Username";
     }
   }
 };
