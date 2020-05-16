@@ -1,7 +1,9 @@
 export default {
-  squads: null,
+  squads: [],
   squadGameToCreate: "",
+  squadUserToCreate: "",
   squadDeletionPending: [],
   squadCreationPending: false,
-  squadToCreator: {}
+  currentSquad: {},
+  creatingSquad: false
 };

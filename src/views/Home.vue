@@ -35,11 +35,7 @@ gcam<template>
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
           >
-            {{ squad.game }}
-            <p v-if="squadToCreator && squadToCreator[squad.id]">
-              Creator:
-              {{ squadToCreator[squad.id].displayName }}
-            </p>
+            {{ squad.game }} {{ squad.users.length }}/5
           </router-link>
         </button>
       </div>
@@ -55,11 +51,7 @@ gcam<template>
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
           >
-            {{ squad.game }}
-            <p v-if="squadToCreator && squadToCreator[squad.id]">
-              Creator:
-              {{ squadToCreator[squad.id].displayName }}
-            </p>
+            {{ squad.game }} {{ squad.users.length }}/5
           </router-link>
         </button>
       </div>
@@ -75,11 +67,7 @@ gcam<template>
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
           >
-            {{ squad.game }}
-            <p v-if="squadToCreator && squadToCreator[squad.id]">
-              Creator:
-              {{ squadToCreator[squad.id].displayName }}
-            </p>
+            {{ squad.game }} {{ squad.users.length }}/5
           </router-link>
         </button>
       </div>
@@ -96,10 +84,6 @@ gcam<template>
             :to="{ name: 'squad', params: { id: squad.id } }"
           >
             {{ squad.game }}
-            <p v-if="squadToCreator && squadToCreator[squad.id]">
-              Creator:
-              {{ squadToCreator[squad.id].displayName }}
-            </p>
           </router-link>
         </button>
       </div>
@@ -115,11 +99,7 @@ gcam<template>
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
           >
-            {{ squad.game }}
-            <p v-if="squadToCreator && squadToCreator[squad.id]">
-              Creator:
-              {{ squadToCreator[squad.id].displayName }}
-            </p>
+            {{ squad.game }} {{ squad.users.length }}/5
           </router-link>
         </button>
       </div>
@@ -135,11 +115,7 @@ gcam<template>
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
           >
-            {{ squad.game }}
-            <p v-if="squadToCreator && squadToCreator[squad.id]">
-              Creator:
-              {{ squadToCreator[squad.id].displayName }}
-            </p>
+            {{ squad.game }} {{ squad.users.length }}/4
           </router-link>
         </button>
       </div>
@@ -147,19 +123,24 @@ gcam<template>
 
     <br />
 
-    <h3>Wanna start your own squad?</h3>
-    <router-link to="/games">
-      <button class="squad-button">
-        Create Squad
-      </button>
-    </router-link>
+    <h3 v-if="creatingSquad === false" >Wanna start your own squad?</h3>
+    <button
+      v-if="creatingSquad === false" 
+      class="squad-button"
+      @click="setSquadCreating(true)"
+    >
+      Create Squad
+    </button>
+    <create-squad></create-squad>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
+import CreateSquad from "@/components/CreateSquad";
 
 export default {
+  components: { CreateSquad },
   head() {
     return {
       title: {
@@ -174,10 +155,12 @@ export default {
       ]
     };
   },
+  created() {
+    this.$store.dispatch("squads/getSquads");
+  },
   computed: {
     ...mapState("app", ["appTitle"]),
-    ...mapState("squads", ["squads"]),
-    ...mapState("squads", ["squadToCreator"]),
+    ...mapState("squads", ["squads", "creatingSquad"]),
     csgoSquads() {
       return this.squads.filter(squad => squad.game === "Counter-Strike");
     },
@@ -196,6 +179,9 @@ export default {
     leagueOfLegendsSquads() {
       return this.squads.filter(squad => squad.game === "League of Legends");
     }
+  },
+  methods: {
+    ...mapMutations("squads", ["setSquadCreating"])
   }
 };
 </script>
