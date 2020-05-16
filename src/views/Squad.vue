@@ -4,7 +4,6 @@
       <h1 v-if="currentSquad" class="squad-name">
         Squad: {{ currentSquad.game }}
       </h1>
-      <p v-if="user === null" class="infos-label">Please login to join</p>
       <div
         v-if="userCanLeave(user.displayName)"
         class="delete-btn"
