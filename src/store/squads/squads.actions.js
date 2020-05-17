@@ -121,7 +121,7 @@ export default {
 
     const squad = await squadDB.read(squadID);
     const idx = squad.users.indexOf(rootState.authentication.user.displayName);
-    squad.users.splice(idx,1);
+    squad.users.splice(idx, 1);
     await squadDB.update(squad);
     commit("setSquad", squad);
   }
