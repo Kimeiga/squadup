@@ -77,20 +77,29 @@ export default {
     return createdSquad.id;
   },
 
-  newSquad: async ({commit, rootstate, state}) => {
-    if (state.squadUserToCreate === "") return;
+  newSquad: async ({commit, rootState, state}) => {
+    if (state.squadUserToCreate === "" && !rootState.authentication.user) return;
     if (state.squadGameToCreate === "") return;
+    if (state.squadTimeToCreate === "") return;
 
     const squadDB = new SquadsDB();
     const squadTime = new Date(parseInt(state.squadDayToCreate, 10) + parseInt(state.squadTimeToCreate, 10));
-    if(rootstate.authentication.user) commit("setSquadUserToCreate", rootstate.authentication.user.displayName);
-    const newSquad = {
-      game: state.squadGameToCreate,
-      users: [state.squadUserToCreate],
-      time: squadTime.getTime(),
-      message: state.squadMessageToCreate
-    };
-
+    let newSquad = {};
+    if(rootState.authentication.user) {
+      newSquad = {
+        game: state.squadGameToCreate,
+        users: [{name: rootState.authentication.user.displayName, photo: rootState.authentication.user.photoURL, userid: ""}],
+        time: squadTime.getTime(),
+        message: state.squadMessageToCreate
+      };
+    } else {
+      newSquad = {
+        game: state.squadGameToCreate,
+        users: [state.squadUserToCreate],
+        time: squadTime.getTime(),
+        message: state.squadMessageToCreate
+      };
+    }
     commit("setSquadCreationPending", true);
     const createdSquad = await squadDB.create(newSquad);
     const today = new Date();
@@ -150,7 +159,7 @@ export default {
     const squadDB = new SquadsDB();
 
     const squad = await squadDB.read(squadID);
-    squad.users.push(rootState.authentication.user.displayName);
+    squad.users.push({name: rootState.authentication.user.displayName, photo: rootState.authentication.user.photoURL, userid: ""});
     await squadDB.update(squad);
     commit("setSquad", squad);
   },
@@ -169,8 +178,11 @@ export default {
     const squadDB = new SquadsDB();
 
     const squad = await squadDB.read(squadID);
-    const idx = squad.users.indexOf(rootState.authentication.user.displayName);
-    squad.users.splice(idx, 1);
+    let i = 0;
+    for(i = 0; i < squad.users.length; i += 1) {
+        if(squad.users[i].name && squad.users[i].name === rootState.authentication.user.displayName) break;
+    }
+    squad.users.splice(i, 1);
     await squadDB.update(squad);
     commit("setSquad", squad);
   }

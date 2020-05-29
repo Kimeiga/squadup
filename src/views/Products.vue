@@ -1,6 +1,7 @@
 <template>
   <div class="page-wrapper">
     <h1 class="products-page-title">Games page</h1>
+    <p>Add games you play to your library. Future updates will let you meet new people based on the games they play</p>
     <product-list class="product-list"></product-list>
     <add-product v-if="networkOnLine"></add-product>
   </div>
@@ -20,9 +21,15 @@ export default {
 <style lang="scss" scoped>
 @import "@/theme/variables.scss";
 
+p {
+  text-align: center;
+  max-width: 500px;
+  margin: auto;
+}
+
 .products-page-title {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }
 
 .product-list {

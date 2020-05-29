@@ -65,7 +65,7 @@
     </textarea>
     <button 
       class="squad-button"
-      v-if="squadUserToCreate != '' && squadTimeToCreate != '' && squadMessageToCreate.length <= 250"
+      v-if="(squadUserToCreate != '' || isUserLoggedIn) && squadTimeToCreate != '' && squadMessageToCreate.length <= 250"
       @click="newSquad"
     >
       Squad Up!
