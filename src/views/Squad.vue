@@ -39,7 +39,16 @@
     <p v-if="currentSquad.message">{{ currentSquad.message }}</p>
     <hr />
     <h2>Players</h2>
-    <h3 v-for="usr in currentSquad.users" :key="usr.id">{{ usr }}</h3>
+    <div v-for="usr in currentSquad.users" :key="usr.id" class="user-entry">
+      <h3 v-if="usr.name === undefined" class="no-account">{{ usr }}</h3>
+      <img
+        v-if="usr.photo"
+        class="user-picture"
+        :src="usr.photo"
+      />
+      <h3 v-if="usr.name" class="name">{{ usr.name }}</h3>
+      <h3 v-if="usr.userid" class="userid">{{ usr.userid }}</h3>
+    </div>
   </div>
 </template>
 
@@ -65,10 +74,18 @@ export default {
     ...mapActions("squads", ["joinSquad", "leaveSquad", "join"]),
     ...mapMutations("squads", ["setSquadUserToCreate"]),
     userCanLeave(user) {
-      return this.currentSquad.users.indexOf(user) > -1;
+      let joined = false;
+      this.currentSquad.users.forEach(e => {
+        if(e.name && e.name === user) joined = true;
+      });
+      return joined;
     },
     userCanJoin(user) {
-      return this.currentSquad.users.indexOf(user) === -1;
+      let joined = false;
+      this.currentSquad.users.forEach(e => {
+        if(e.name && e.name === user) joined = true;
+      });
+      return !joined;
     },
     notFull() {
       if (this.currentSquad.game === "Valorant")
@@ -147,6 +164,33 @@ export default {
   margin-left: auto;
   color: $vue-color;
   border-color: $vue-color;
+}
+
+.user-entry {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+
+  .no-account {
+    margin-left: 52px;
+  }
+
+  .user-picture {
+    max-height: 32px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  .name {
+    display: inline-block;
+  }
+  
+  .userid {
+    font-weight: 300;
+    display: inline-block;
+  }
+
 }
 
 .delete-btn {
