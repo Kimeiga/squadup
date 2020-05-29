@@ -7,10 +7,10 @@
     </router-link>
     <div class="links">
       <nav class="nav-links">
-        <div class="nav-item">
+        <div v-if="isUserLoggedIn" class="nav-item">
           <router-link to="/friends">Friends</router-link>
         </div>
-        <div class="nav-item">
+        <div v-if="isUserLoggedIn" class="nav-item">
           <router-link to="/games">Games</router-link>
         </div>
         <div v-if="!isUserLoggedIn && networkOnLine" class="nav-item">

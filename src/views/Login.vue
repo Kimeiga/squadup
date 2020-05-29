@@ -29,6 +29,7 @@
     >
       Login with Facebook
     </div>
+    <p><br><b>note:</b> this does not give us access to you Google or Facebook account actions or let us share any data with either company</p>
   </div>
 </template>
 
@@ -144,5 +145,10 @@ export default {
       border-color: $vue-color;
     }
   }
+}
+
+p {
+  text-align: center;
+  max-width: 500px;
 }
 </style>

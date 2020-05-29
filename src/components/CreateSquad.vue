@@ -15,22 +15,57 @@
       </select>
     </p>
     <div>
-    <p class="helper-text" v-if="squadGameToCreate === 'Valorant' || squadGameToCreate === 'League of Legends'">Enter your RiotID:</p>
-    <p class="helper-text" v-if="squadGameToCreate === 'Fortnite'">Enter your Epic Games username:</p>
-    <p class="helper-text" v-if="squadGameToCreate === 'DOTA 2'">Enter your DOTA 2 username:</p>
-    <p class="helper-text" v-if="squadGameToCreate === 'Counter-Strike'">Enter your Steam username:</p>
-    <p class="helper-text" v-if="squadGameToCreate === 'Minecraft'">Enter your Mojaang ID:</p>
+    <p class="helper-text" v-if="!isUserLoggedIn && squadGameToCreate === 'Valorant' || squadGameToCreate === 'League of Legends'">Enter your RiotID:</p>
+    <p class="helper-text" v-if="!isUserLoggedIn && squadGameToCreate === 'Fortnite'">Enter your Epic Games username:</p>
+    <p class="helper-text" v-if="!isUserLoggedIn && squadGameToCreate === 'DOTA 2'">Enter your DOTA 2 username:</p>
+    <p class="helper-text" v-if="!isUserLoggedIn && squadGameToCreate === 'Counter-Strike'">Enter your Steam username:</p>
+    <p class="helper-text" v-if="!isUserLoggedIn && squadGameToCreate === 'Minecraft'">Enter your Mojang ID:</p>
     <input
-      v-if="squadGameToCreate != ''"
+      v-if="!isUserLoggedIn && squadGameToCreate != ''"
       type="text"
       class="squad-user-input"
       :value="squadUserToCreate"
       @input="setSquadUserToCreate($event.target.value)"
     />
     </div>
+    <p class="date-chooser" >Date:
+      <select
+        :value="squadDayToCreate"
+        @input="updateDay($event.target.value)"
+      >
+        <option disabled value="">Date</option>
+        <option 
+          v-for="day in days"
+          :key="day.timestamp"
+          :value="day.timestamp"
+        >
+          {{ day.readable }}
+        </option>
+      </select>
+      <select
+        v-if="squadDayToCreate != ''"
+        :value="squadTimeToCreate"
+        @input="setSquadTimeToCreate($event.target.value)"
+      >
+        <option disabled value="">Time</option>
+        <option 
+          v-for="time in times"
+          :key="time.timestamp"
+          :value="time.timestamp"
+        >
+          {{ time.readable }}
+        </option>
+      </select>
+    </p>
+    <p>Optional message ( {{ squadMessageToCreate.length }}/250 ):</p>
+    <textarea
+      :value="squadMessageToCreate"
+      @input="setSquadMessageToCreate($event.target.value)"
+    >
+    </textarea>
     <button 
       class="squad-button"
-      v-if="squadUserToCreate != ''"
+      v-if="squadUserToCreate != '' && squadTimeToCreate != '' && squadMessageToCreate.length <= 250"
       @click="newSquad"
     >
       Squad Up!
@@ -45,17 +80,28 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
-  computed: mapState("squads", [
-    "squadGameToCreate",
-    "squadUserToCreate",
-    "creatingSquad"
-  ]),
+  computed: {
+    ...mapState("squads", [
+      "squadGameToCreate",
+      "squadUserToCreate",
+      "squadTimeToCreate",
+      "squadDayToCreate",
+      "squadMessageToCreate",
+      "times",
+      "days",
+      "creatingSquad"
+    ]),
+    ...mapGetters("authentication", ["isUserLoggedIn"])
+    },
   methods: {
-    ...mapMutations("squads", ["setSquadUserToCreate", "setSquadGameToCreate"]),
+    ...mapMutations("squads", ["setSquadUserToCreate", "setSquadGameToCreate", "setSquadTimeToCreate", "setSquadMessageToCreate", "updateDay"]),
     ...mapActions("squads", ["newSquad", "clearSquadCreating"])
+  },
+  created() {
+    this.$store.dispatch("squads/setupDateSelection");
   }
 };
 </script>
@@ -71,6 +117,7 @@ export default {
   border: 1px solid;
   border-color: #2c3e50;
   border-radius: 3px;
+  margin-bottom: 10px;
 }
 
 select {
@@ -78,6 +125,12 @@ select {
   border-color: #2c3e50;
   border-radius: 3px;
   padding: 5px;
+}
+
+textarea {
+  border: 1px solid #2c3e50;
+  border-radius: 3px;
+  width: 100%;
 }
 
 .squad-button {
@@ -129,6 +182,10 @@ select {
   border-color: #2c3e50;
   border-radius: 3px;
   padding: 20px;
+}
+
+.date-chooser select {
+  margin-right: 5px;
 }
 
 .delete-btn {

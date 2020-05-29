@@ -1,4 +1,5 @@
 /* eslint-disable no-await-in-loop */
+
 /* eslint-disable no-restricted-syntax */
 import SquadsDB from "@/firebase/squads-db";
 
@@ -6,11 +7,31 @@ export default {
   /**
    * Fetch all squads
    */
+
+  setupDateSelection: async ({ commit }) => {
+    commit("setDays");
+    commit("setTimes", []);
+  },
+
   getSquads: async ({ commit }) => {
     const squadsDB = new SquadsDB();
     const squads = await squadsDB.readAll();
 
-    commit("setSquads", squads);
+    commit("setSquads", squads.map((x) => {
+      if(x.time != null) {
+        const t = new Date(parseInt(x.time, 10));
+        const today = new Date();
+        const tmrw = new Date(today.getTime() + 86400000)
+        x.day = t.toDateString().substring(0, t.toDateString().lastIndexOf(' '));
+        if(t.getDate() === today.getDate()) x.day = "Today";
+        if(t.getDate() === tmrw.getDate()) x.day = "Tomorrow";
+        x.hour = `${t.getHours()}:00 AM`;
+        if(t.getHours() === 0) x.hour = '12:00 AM';
+        else if(t.getHours() === 12) x.hour = '12:00 PM';
+        else if(t.getHours() > 12) x.hour = `${t.getHours() - 12}:00 PM`;
+      }
+      return x;
+    }));
   },
 
   clearCurrentSquad: async ({ commit }) => {
@@ -19,7 +40,18 @@ export default {
 
   getCurrentSquad: async ({ commit }, squadID) => {
     const squadsDB = new SquadsDB();
-    commit("setSquad", await squadsDB.read(squadID));
+    const s = await squadsDB.read(squadID);
+    const t = new Date(parseInt(s.time, 10));
+    const today = new Date();
+    const tmrw = new Date(today.getTime() + 86400000)
+    s.day = t.toDateString().substring(0, t.toDateString().lastIndexOf(' '));
+    if(t.getDate() === today.getDate()) s.day = "Today";
+    if(t.getDate() === tmrw.getDate()) s.day = "Tomorrow";
+    s.hour = `${t.getHours()}:00 AM`;
+    if(t.getHours() === 0) s.hour = '12:00 AM';
+    else if(t.getHours() === 12) s.hour = '12:00 PM';
+    else if(t.getHours() > 12) s.hour = `${t.getHours() - 12}:00 PM`;
+    commit("setSquad", s);
   },
 
   /**
@@ -45,30 +77,47 @@ export default {
     return createdSquad.id;
   },
 
-  newSquad: async ({commit, state}) => {
+  newSquad: async ({commit, rootstate, state}) => {
     if (state.squadUserToCreate === "") return;
     if (state.squadGameToCreate === "") return;
 
     const squadDB = new SquadsDB();
-
+    const squadTime = new Date(parseInt(state.squadDayToCreate, 10) + parseInt(state.squadTimeToCreate, 10));
+    if(rootstate.authentication.user) commit("setSquadUserToCreate", rootstate.authentication.user.displayName);
     const newSquad = {
       game: state.squadGameToCreate,
       users: [state.squadUserToCreate],
-      time: null
+      time: squadTime.getTime(),
+      message: state.squadMessageToCreate
     };
 
     commit("setSquadCreationPending", true);
     const createdSquad = await squadDB.create(newSquad);
+    const today = new Date();
+    const tmrw = new Date(today.getTime() + 86400000)
+    createdSquad.day = squadTime.toDateString().substring(0, squadTime.toDateString().lastIndexOf(' '));
+    if(squadTime.getDate() === today.getDate()) createdSquad.day = "Today";
+    if(squadTime.getDate() === tmrw.getDate()) createdSquad.day = "Tomorrow";
+    createdSquad.hour = `${squadTime.getHours()}:00 AM`;
+    if(squadTime.getHours() === 0) createdSquad.hour = '12:00 AM';
+    else if(squadTime.getHours() === 12) createdSquad.hour = '12:00 PM';
+    else if(squadTime.getHours() > 12) createdSquad.hour = `${squadTime.getHours() - 12}:00 PM`;
     commit("addSquad", createdSquad);
     commit("setSquadCreationPending", false);
     commit("setSquadUserToCreate", "");
     commit("setSquadGameToCreate", "");
+    commit("setSquadTimeToCreate", "");
+    commit("setSquadMessageToCreate", "");
+    commit("setSquadDayToCreate", "");
     commit("setSquadCreating", false);
   },
 
   clearSquadCreating: async ({commit}) => {
     commit("setSquadUserToCreate", "");
     commit("setSquadGameToCreate", "");
+    commit("setSquadTimeToCreate", "");
+    commit("setSquadDayToCreate", "");
+    commit("setSquadMessageToCreate", "");
     commit("setSquadCreating", false);
   },
 
