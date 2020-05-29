@@ -35,6 +35,8 @@
         Squad Full
       </div>
     </div>
+    <h3>{{ currentSquad.day }} {{ currentSquad.hour }}</h3>
+    <p v-if="currentSquad.message">{{ currentSquad.message }}</p>
     <hr />
     <h2>Players</h2>
     <h3 v-for="usr in currentSquad.users" :key="usr.id">{{ usr }}</h3>

@@ -1,6 +1,7 @@
 <template>
   <div class="product-detail">
     <h1>{{ product.name }}</h1>
+    <p>More features coming soon</p>
   </div>
 </template>
 

@@ -8,13 +8,6 @@
     </router-link>
     <div
       v-if="!disableActions"
-      class="squad-btn"
-      @click="$emit('squadUpProduct', data.id)"
-    >
-      {{ "squad up" }}
-    </div>
-    <div
-      v-if="!disableActions"
       class="delete-btn"
       @click="$emit('deleteProduct', data.id)"
     >

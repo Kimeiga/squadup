@@ -35,7 +35,13 @@ gcam<template>
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
           >
-            {{ squad.game }} {{ squad.users.length }}/5
+            <div v-if="squad.time != NaN" class="date-info right-border">
+              <p>{{ squad.day }} <br>
+              {{ squad.hour }}</p>
+            </div>
+            <div class="fill-info">
+            {{ squad.users.length }}/5
+            </div>
           </router-link>
         </button>
       </div>
@@ -51,7 +57,13 @@ gcam<template>
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
           >
-            {{ squad.game }} {{ squad.users.length }}/5
+            <div v-if="squad.time != NaN" class="date-info right-border">
+              <p>{{ squad.day }} <br>
+              {{ squad.hour }}</p>
+            </div>
+            <div class="fill-info">
+            {{ squad.users.length }}/5
+            </div>
           </router-link>
         </button>
       </div>
@@ -67,7 +79,13 @@ gcam<template>
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
           >
-            {{ squad.game }} {{ squad.users.length }}/5
+            <div v-if="squad.time != NaN" class="date-info right-border">
+              <p>{{ squad.day }} <br>
+              {{ squad.hour }}</p>
+            </div>
+            <div class="fill-info">
+            {{ squad.users.length }}/5
+            </div>
           </router-link>
         </button>
       </div>
@@ -83,7 +101,10 @@ gcam<template>
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
           >
-            {{ squad.game }}
+            <div v-if="squad.time != NaN" class="date-info">
+              <p>{{ squad.day }} <br>
+              {{ squad.hour }}</p>
+            </div>
           </router-link>
         </button>
       </div>
@@ -99,7 +120,13 @@ gcam<template>
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
           >
-            {{ squad.game }} {{ squad.users.length }}/5
+            <div v-if="squad.time != NaN" class="date-info right-border">
+              <p>{{ squad.day }} <br>
+              {{ squad.hour }}</p>
+            </div>
+            <div class="fill-info">
+            {{ squad.users.length }}/5
+            </div>
           </router-link>
         </button>
       </div>
@@ -115,7 +142,13 @@ gcam<template>
             class="product-link"
             :to="{ name: 'squad', params: { id: squad.id } }"
           >
-            {{ squad.game }} {{ squad.users.length }}/4
+            <div v-if="squad.time != NaN" class="date-info right-border">
+              <p>{{ squad.day }} <br>
+              {{ squad.hour }}</p>
+            </div>
+            <div class="fill-info">
+            {{ squad.users.length }}/4
+            </div>
           </router-link>
         </button>
       </div>
@@ -212,8 +245,32 @@ export default {
   box-shadow: 0 0 40px 40px #46bd87 inset, 0 0 0 0 #46bd87;
   transition: all 150ms ease-in-out;
 
+  .date-info {
+    float: left;
+    padding-right: 10px;
+    justify-content: center;
+    
+    p {
+      font-weight: 500;
+    }
+  }
+
+  .right-border {
+    border-right: 1px solid white;
+  }
+
+  .fill-info {
+    padding-left: 10px;
+    justify-content: center;
+  }
+
   &:hover {
     box-shadow: 0 0 10px 0 #46bd87 inset, 0 0 10px 4px #46bd87;
+  }
+  
+  a {
+    display: flex;
+    align-items: center;
   }
 
   box-sizing: border-box;
@@ -223,11 +280,13 @@ export default {
   cursor: pointer;
   display: flex;
   align-self: center;
+  align-items: center;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1;
   margin: 20px;
-  padding: 1.2em 2.8em;
+  padding: 1.2em 1.2em;
+  /*padding: 1.2em 2.8em;*/
   text-decoration: none;
   text-align: center;
   font-weight: 700;
