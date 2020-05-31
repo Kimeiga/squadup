@@ -52,6 +52,12 @@ const router = new Router({
         import(/* webpackChunkName: "client-chunk-friends" */ "@/views/Friends.vue")
     },
     {
+      path: "/profile",
+      name: "profile",
+      component: () =>
+        import("@/views/Profile.vue")
+    },
+    {
       path: "/games",
       name: "games",
       component: () =>

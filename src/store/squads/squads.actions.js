@@ -13,6 +13,18 @@ export default {
     commit("setTimes", []);
   },
 
+  setSquadGame: async ({ commit, rootState }, name) => {
+    commit("setSquadGameToCreate", name);
+    if(rootState.authentication.user) {
+      commit("setSquadUserToCreate", "");
+      if((name === 'Valorant' || name === 'League of Legends') && rootState.authentication.user.riotId) commit("setSquadUserToCreate", rootState.authentication.user.riotId);
+      if(name === 'Fortnite' && rootState.authentication.user.epicId) commit("setSquadUserToCreate", rootState.authentication.user.epicId);
+      if(name === 'DOTA 2' && rootState.authentication.user.dotaId) commit("setSquadUserToCreate", rootState.authentication.user.dotaId);
+      if(name === 'Counter-Strike' && rootState.authentication.user.steamId) commit("setSquadUserToCreate", rootState.authentication.user.steamId);
+      if(name === 'Minecraft' && rootState.authentication.user.mojangId) commit("setSquadUserToCreate", rootState.authentication.user.mojangId);
+    }
+  },
+
   getSquads: async ({ commit }) => {
     const squadsDB = new SquadsDB();
     const squads = await squadsDB.readAll();
@@ -38,7 +50,7 @@ export default {
     commit("setSquad", null);
   },
 
-  getCurrentSquad: async ({ commit }, squadID) => {
+  getCurrentSquad: async ({ commit, dispatch }, squadID) => {
     const squadsDB = new SquadsDB();
     const s = await squadsDB.read(squadID);
     const t = new Date(parseInt(s.time, 10));
@@ -51,6 +63,8 @@ export default {
     if(t.getHours() === 0) s.hour = '12:00 AM';
     else if(t.getHours() === 12) s.hour = '12:00 PM';
     else if(t.getHours() > 12) s.hour = `${t.getHours() - 12}:00 PM`;
+    console.log(s);
+    dispatch("setSquadGame", s.game);
     commit("setSquad", s);
   },
 
@@ -88,7 +102,7 @@ export default {
     if(rootState.authentication.user) {
       newSquad = {
         game: state.squadGameToCreate,
-        users: [{name: rootState.authentication.user.displayName, photo: rootState.authentication.user.photoURL, userid: ""}],
+        users: [{name: rootState.authentication.user.displayName, photo: rootState.authentication.user.photoURL, userid: state.squadUserToCreate, id: rootState.authentication.user.id}],
         time: squadTime.getTime(),
         message: state.squadMessageToCreate
       };
@@ -164,13 +178,21 @@ export default {
     commit("setSquad", squad);
   },
 
-  join: async ({ state, commit }, squadID) => {
+  join: async ({ rootState, state, commit }, squadID) => {
     const squadDB = new SquadsDB();
 
     const squad = await squadDB.read(squadID);
-    squad.users.push(state.squadUserToCreate);
+    if(rootState.authentication.user) {
+      squad.users.push({name: rootState.authentication.user.displayName,
+        photo: rootState.authentication.user.photoURL,
+        userid: state.squadUserToCreate,
+        id: rootState.authentication.user.id
+      });
+    } else {
+      squad.users.push(state.squadUserToCreate);
+    }
     await squadDB.update(squad);
-    commit("setSquadUserToCreate", "");
+    if(!rootState.authentication.user) commit("setSquadUserToCreate", "");
     commit("setSquad", squad);
   },
 
@@ -180,7 +202,7 @@ export default {
     const squad = await squadDB.read(squadID);
     let i = 0;
     for(i = 0; i < squad.users.length; i += 1) {
-        if(squad.users[i].name && squad.users[i].name === rootState.authentication.user.displayName) break;
+        if(squad.users[i].id && squad.users[i].id === rootState.authentication.user.id) break;
     }
     squad.users.splice(i, 1);
     await squadDB.update(squad);
