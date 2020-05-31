@@ -204,7 +204,7 @@ export default {
       return this.squads.filter(squad => squad.game === "Minecraft");
     },
     dotaSquads() {
-      return this.squads.filter(squad => squad.game === "DOTA");
+      return this.squads.filter(squad => squad.game === "DOTA 2");
     },
     fortniteSquads() {
       return this.squads.filter(squad => squad.game === "Fortnite");
