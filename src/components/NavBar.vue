@@ -13,6 +13,9 @@
         <div v-if="isUserLoggedIn" class="nav-item">
           <router-link to="/games">Games</router-link>
         </div>
+        <div v-if="isUserLoggedIn && networkOnLine" class="nav-item">
+          <router-link to="/profile">Profile</router-link>
+        </div>
         <div v-if="!isUserLoggedIn && networkOnLine" class="nav-item">
           <router-link to="/login">Login</router-link>
         </div>

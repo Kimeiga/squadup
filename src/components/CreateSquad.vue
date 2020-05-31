@@ -3,7 +3,7 @@
     <p>Select your game:
       <select 
         :value="squadGameToCreate"
-        @input="setSquadGameToCreate($event.target.value)"
+        @input="setSquadGame($event.target.value)"
       >
         <option disabled value="">Please select one</option>
         <option>Counter-Strike</option>
@@ -15,13 +15,13 @@
       </select>
     </p>
     <div>
-    <p class="helper-text" v-if="!isUserLoggedIn && squadGameToCreate === 'Valorant' || squadGameToCreate === 'League of Legends'">Enter your RiotID:</p>
-    <p class="helper-text" v-if="!isUserLoggedIn && squadGameToCreate === 'Fortnite'">Enter your Epic Games username:</p>
-    <p class="helper-text" v-if="!isUserLoggedIn && squadGameToCreate === 'DOTA 2'">Enter your DOTA 2 username:</p>
-    <p class="helper-text" v-if="!isUserLoggedIn && squadGameToCreate === 'Counter-Strike'">Enter your Steam username:</p>
-    <p class="helper-text" v-if="!isUserLoggedIn && squadGameToCreate === 'Minecraft'">Enter your Mojang ID:</p>
+    <p class="helper-text" v-if="(squadGameToCreate === 'Valorant' || squadGameToCreate === 'League of Legends')">Enter your RiotID:</p>
+    <p class="helper-text" v-if="squadGameToCreate === 'Fortnite'">Enter your Epic Games username:</p>
+    <p class="helper-text" v-if="squadGameToCreate === 'DOTA 2'">Enter your DOTA 2 username:</p>
+    <p class="helper-text" v-if="squadGameToCreate === 'Counter-Strike'">Enter your Steam username:</p>
+    <p class="helper-text" v-if="squadGameToCreate === 'Minecraft'">Enter your Mojang ID:</p>
     <input
-      v-if="!isUserLoggedIn && squadGameToCreate != ''"
+      v-if="squadGameToCreate != ''"
       type="text"
       class="squad-user-input"
       :value="squadUserToCreate"
@@ -94,11 +94,12 @@ export default {
       "days",
       "creatingSquad"
     ]),
-    ...mapGetters("authentication", ["isUserLoggedIn"])
+    ...mapGetters("authentication", ["isUserLoggedIn"]),
+    ...mapState("authentication", ["user"])
     },
   methods: {
     ...mapMutations("squads", ["setSquadUserToCreate", "setSquadGameToCreate", "setSquadTimeToCreate", "setSquadMessageToCreate", "updateDay"]),
-    ...mapActions("squads", ["newSquad", "clearSquadCreating"])
+    ...mapActions("squads", ["newSquad", "clearSquadCreating", "setSquadGame"])
   },
   created() {
     this.$store.dispatch("squads/setupDateSelection");

@@ -4,7 +4,7 @@
       <h1 v-if="currentSquad" class="squad-name">
         Squad: {{ currentSquad.game }}
       </h1>
-      <div v-if="user === null && notFull()" class="add-user-by-name">
+      <div v-if="notFull() && (!user || userCanJoin(user.id))" class="add-user-by-name">
         <input
           type="text"
           class="squad-user-input"
@@ -15,21 +15,14 @@
         <div class="accept-btn" @click="join(currentSquad.id)">Join</div>
       </div>
       <div
-        v-if="user && userCanLeave(user.displayName)"
+        v-if="user && userCanLeave(user.id)"
         class="delete-btn"
         @click="leaveSquad(currentSquad.id)"
       >
         Leave
       </div>
       <div
-        v-if="user && userCanJoin(user.displayName) && notFull()"
-        class="accept-btn"
-        @click="joinSquad(currentSquad.id)"
-      >
-        Join
-      </div>
-      <div
-        v-if="!notFull() && !(user && userCanLeave(user.displayName))"
+        v-if="!notFull() && !(user && userCanLeave(user.id))"
         class="full"
       >
         Squad Full
@@ -48,6 +41,13 @@
       />
       <h3 v-if="usr.name" class="name">{{ usr.name }}</h3>
       <h3 v-if="usr.userid" class="userid">{{ usr.userid }}</h3>
+      <div
+        v-if="user && user.id != usr.id && !isFriend(usr.id)"
+        class="accept-btn"
+        @click="sendUserRequest(usr.id)"
+      >
+        add friend
+      </div>
     </div>
   </div>
 </template>
@@ -72,18 +72,19 @@ export default {
   },
   methods: {
     ...mapActions("squads", ["joinSquad", "leaveSquad", "join"]),
+    ...mapActions("requests", ["sendUserRequest"]),
     ...mapMutations("squads", ["setSquadUserToCreate"]),
     userCanLeave(user) {
       let joined = false;
       this.currentSquad.users.forEach(e => {
-        if(e.name && e.name === user) joined = true;
+        if(e.id === user) joined = true;
       });
       return joined;
     },
     userCanJoin(user) {
       let joined = false;
       this.currentSquad.users.forEach(e => {
-        if(e.name && e.name === user) joined = true;
+        if(e.id === user) joined = true;
       });
       return !joined;
     },
@@ -100,6 +101,15 @@ export default {
         return this.currentSquad.users.length < 5;
       if (this.currentSquad.game === "Minecraft") return true;
       return this.currrentSquad.users.length < 5;
+    },
+    isFriend(uid) {
+      if(!this.user) return true;
+      let friend = false;
+      console.log(this.user);
+      this.friends.forEach(e => {
+        if(e.friendId === uid) friend = true;
+      });
+      return friend;
     }
   },
   created() {
@@ -108,6 +118,7 @@ export default {
   },
   computed: {
     ...mapState("app", ["appTitle"]),
+    ...mapState("friends", ["friends"]),
     ...mapState("authentication", ["user"]),
     ...mapState("squads", ["squads", "currentSquad", "squadUserToCreate"]),
     ...mapGetters("squads", ["getSquadById"]),
@@ -187,6 +198,7 @@ export default {
   }
   
   .userid {
+    margin-left: 10px;
     font-weight: 300;
     display: inline-block;
   }

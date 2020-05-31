@@ -35,5 +35,10 @@ export default {
     if (!(currentRouter.meta && currentRouter.meta.authNotRequired)) {
       router.push("/login");
     }
+  },
+  
+  saveIds: ({ state }) => {
+    const usersDB = new UsersDB();
+    usersDB.update(state.user)
   }
 };

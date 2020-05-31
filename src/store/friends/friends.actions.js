@@ -25,7 +25,6 @@ export default {
     const name = await getUsernameFromUserID(friend);
     const photo = await getUserPhotoUrlFromUserID(friend);
     console.log("friend");
-    debugger;
     console.log({
       friendId: friend,
       friendName: name,
