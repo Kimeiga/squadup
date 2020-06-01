@@ -42,7 +42,7 @@
       <h3 v-if="usr.name" class="name">{{ usr.name }}</h3>
       <h3 v-if="usr.userid" class="userid">{{ usr.userid }}</h3>
       <div
-        v-if="user && user.id != usr.id && !isFriend(usr.id)"
+        v-if="usr.id && user && user.id != usr.id && !isFriend(usr.id)"
         class="accept-btn"
         @click="sendUserRequest(usr.id)"
       >

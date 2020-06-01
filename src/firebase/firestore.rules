@@ -34,7 +34,7 @@ service cloud.firestore {
       allow get: if true;
       allow list: if true;
       allow create: if true;
-      allow update: if true;
+      allow update, delete: if true;
     }
   }
 }
