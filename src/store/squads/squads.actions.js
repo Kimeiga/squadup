@@ -27,7 +27,16 @@ export default {
 
   getSquads: async ({ commit }) => {
     const squadsDB = new SquadsDB();
-    const squads = await squadsDB.readAll();
+    let squads = await squadsDB.readAll();
+    const time = new Date().getTime();
+    const newSquad = []
+
+    for(let i = 0; i < squads.length; i+=1) {
+        if(time - squads[i].time > 7200000) await squadsDB.delete(squads[i].id);
+        else newSquad.push(squads[i]);
+    }
+
+    squads = newSquad;
 
     commit("setSquads", squads.map((x) => {
       if(x.time != null) {
