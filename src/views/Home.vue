@@ -11,6 +11,7 @@ gcam<template>
       ability to form squads and meet friends.
     </p>
     <p>Click a squad below to join and meet gamers.</p>
+    <p>Log in to connect with your squad and autofill usernames.</p>
 
     <h2>Current Squads</h2>
 
